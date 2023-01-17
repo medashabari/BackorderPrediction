@@ -1,1 +1,16 @@
+ipykernel
 pymongo
+pandas
+numpy
+matplotlib
+seaborn
+pyarrow
+fastparquet
+sklearn
+scikit-learn
+scipy
+xgboost
+imbalanced-learn
+catboost
+boto3
+s3fs
