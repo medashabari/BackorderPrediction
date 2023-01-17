@@ -1,25 +1,14 @@
-import pymongo
+import os, sys
+from backorder.exception import BackOrderException 
+from backorder.logger import logging 
+from backorder.entity import config_entity
+from backorder.components.data_ingestion import DataIngestion
+if __name__ == '__main__':
 
-# Provide the mongodb localhost url to connect python to mongodb.
-client = pymongo.MongoClient("mongodb://localhost:27017/neurolabDB")
+     training_pipeline_config =  config_entity.TrainingPipelineConfig()
 
-# Database Name
-dataBase = client["neurolabDB"]
+     data_ingestion_config = config_entity.DataIngestionConfig(training_pipeline_config)
 
-# Collection  Name
-collection = dataBase['Products']
+     data_ingestion = DataIngestion(data_ingestion_config)
 
-# Sample data
-d = {'companyName': 'iNeuron',
-     'product': 'Affordable AI',
-     'courseOffered': 'Machine Learning with Deployment'}
-
-# Insert above records in the collection
-rec = collection.insert_one(d)
-
-# Lets Verify all the record at once present in the record with all the fields
-all_record = collection.find()
-
-# Printing all records present in the collection
-for idx, record in enumerate(all_record):
-     print(f"{idx}: {record}")
+     data_ingestion_artifact = data_ingestion.initiate_data_ingestion()

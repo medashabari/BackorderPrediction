@@ -13,7 +13,7 @@ class TrainingPipelineConfig:
     """
     def __init__(self):
         try:
-            self.artifact_dir = os.path.join(os.getcwd(),"artifacts",f"{datetime.now().strftime('%d_$m_%y__%H_%M_%S')}")
+            self.artifact_dir = os.path.join(os.getcwd(),"artifacts",f"{datetime.now().strftime('%d_%m_%y__%H_%M_%S')}")
 
         except Exception as e:
             BackOrderException(error=e, error_detail=sys)

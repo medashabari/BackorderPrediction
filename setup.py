@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+from typing import List
 
 REQUIREMENTS_FILE_NAME = 'requirements.txt'
 HYPHEN_E_DOT = '-e .'
