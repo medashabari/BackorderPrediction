@@ -14,3 +14,4 @@ imbalanced-learn
 catboost
 boto3
 s3fs
+-e .
