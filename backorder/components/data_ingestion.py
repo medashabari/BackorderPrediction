@@ -30,11 +30,22 @@ class DataIngestion:
         try:
             logging.info("================Initiating DataIngestion ========================")
             df:pd.DataFrame = utils.get_parquet_as_dataFrame(bucket_name=os.getenv('BUCKET_NAME'), filename=self.data_ingestion_config.parquet_file_name)
-            logging.info("Replacing the null values with np.Nan in Dataset")
+            
+            # Shape of the dataset
+            logging.info(f'Shape of the dataset {df.shape}')
 
             # replacing na values np.Nan 
+            logging.info("Replacing the null values with np.Nan in Dataset")
             df.replace(to_replace='na',value=np.nan,inplace=True)
-    
+
+            # dropping dupliactes 
+            dupliacte_values = df.duplicated().sum()
+            logging.info(f'Number of duplicate values are {dupliacte_values}')
+            logging.info(f'Dropping duplicates')
+            df.drop_duplicates(inplace=True)
+            dupliacte_values = df.duplicated().sum()
+            logging.info(f'Number of duplicate values after dropping {dupliacte_values}')
+
             # creating feature store folder if not available
             feature_store_dir = os.path.dirname(self.data_ingestion_config.feature_store_file_path)
             os.makedirs(feature_store_dir,exist_ok=True)
@@ -45,7 +56,7 @@ class DataIngestion:
 
             # splitting the dataset into train and test sets
             logging.info('splitting the dataset into train and test sets')
-            train_df,test_df=train_test_split(df,test_size=self.data_ingestion_config.test_size,random_state=42)
+            train_df,test_df=train_test_split(df,test_size=self.data_ingestion_config.test_size,random_state=10)
 
             # creating dataset folders for train and test sets if not available 
             logging.info("creating dataset folders for train and test sets if not available ")

@@ -16,7 +16,7 @@ class TrainingPipelineConfig:
             self.artifact_dir = os.path.join(os.getcwd(),"artifacts",f"{datetime.now().strftime('%d_%m_%y__%H_%M_%S')}")
 
         except Exception as e:
-            BackOrderException(error=e, error_detail=sys)
+            raise BackOrderException(error=e, error_detail=sys)
 
 class DataIngestionConfig:
     """
@@ -38,11 +38,23 @@ class DataIngestionConfig:
 
             self.test_size = 0.33
 
-            os.makedirs(self.data_ingestion_dir, exist_ok=True)
 
         except Exception as e:
-            BackOrderException(error=e, error_detail=sys)
-class DataValidationConfig:...
+            raise BackOrderException(error=e, error_detail=sys)
+
+            
+class DataValidationConfig:
+    """
+    Description : Creates DataValidation Configuration files
+    """
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        try:
+            self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir,'data_validation')
+            os.makedirs(self.data_validation_dir,exist_ok=True)
+            self.report_file_path = os.path.join(self.data_validation_dir,"report.yaml")
+            self.base_file_path = os.path.join('/config/workspace/sample_bo.parquet.gzip')
+        except Exception as e:
+            raise BackOrderException(error=e, error_detail=sys)
 class DataTransformationConfig:...
 class ModelTrainerConfig:...
 class ModelEvaluationConfig:...
