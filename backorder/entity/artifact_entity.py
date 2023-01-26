@@ -17,6 +17,10 @@ class DataTransformationArtifact:
     transformed_test_path:str 
     categorical_encoder_object_file_path:str
     target_encoder_object_file_path:str
-class ModelTrainerArtifact:...
+@dataclass
+class ModelTrainerArtifact:
+    model_file_path:str
+    f1_train_score:float
+    f1_test_score:float
 class ModelEvaluationArtifact:...
 class ModelPusherArtifact:...

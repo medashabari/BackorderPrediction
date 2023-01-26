@@ -9,7 +9,7 @@ TEST_FILE_NAME = 'test.csv'
 TRANSFORMER_OBJECT_FILE_NAME = 'transformer.pkl'
 TARGET_ENCODER_OBJECT_FILE_NAME = 'target.pkl'
 CATEGORICAL_ENCODER_OBJECT_FILE_NAME = 'categorical.pkl'
-
+MODEL_FILE_NAME = 'model.pkl'
 class TrainingPipelineConfig:
     """
     Description: This class contain Training Pipeline configuration.
@@ -77,6 +77,18 @@ class DataTransformationConfig:
             raise BackOrderException(error=e, error_detail=sys)
 
 
-class ModelTrainerConfig:...
+class ModelTrainerConfig:
+    """
+    Description : Creates Model Training Configuration Files
+    """
+    try:
+        def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+            self.model_train_dir = os.path.join(training_pipeline_config.artifact_dir,"model_trainer")
+            os.makedirs(self.model_train_dir,exist_ok=True)
+            self.model_object_path = os.path.join(self.model_train_dir,'model',MODEL_FILE_NAME)
+            self.expected_score = 0.7
+            self.over_fitting_threshold = 0.1
+    except Exception as e:
+        raise BackOrderException(error=e, error_detail=sys)
 class ModelEvaluationConfig:...
 class ModelPusherConfig:...

@@ -5,6 +5,7 @@ from backorder.entity import config_entity
 from backorder.components.data_ingestion import DataIngestion
 from backorder.components.data_validation import DataValidation
 from backorder.components.data_transformation import DataTransformation
+from backorder.components.model_trainer import ModelTrainer
 if __name__ == '__main__':
      try:
           training_pipeline_config =  config_entity.TrainingPipelineConfig()
@@ -26,5 +27,13 @@ if __name__ == '__main__':
           data_transformation = DataTransformation(data_ingestion_artifact, data_transformation_config)
 
           data_transformation_artifact = data_transformation.initiate_data_transformation()
+
+          model_trainer_config = config_entity.ModelTrainerConfig(training_pipeline_config)
+
+          model_trainer = ModelTrainer(data_transformation_artifact, model_trainer_config)
+
+          model_trainer_artifact = model_trainer.initiate_model_training()
+
+
      except Exception as e:
           raise BackOrderException(error=e, error_detail=sys)
