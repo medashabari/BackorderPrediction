@@ -45,7 +45,8 @@ class DataIngestion:
             df.drop_duplicates(inplace=True)
             dupliacte_values = df.duplicated().sum()
             logging.info(f'Number of duplicate values after dropping {dupliacte_values}')
-
+            # In analysis we saw 1 row with entire nan values
+            df.dropna(thresh=10,inplace=True)
             # creating feature store folder if not available
             feature_store_dir = os.path.dirname(self.data_ingestion_config.feature_store_file_path)
             os.makedirs(feature_store_dir,exist_ok=True)

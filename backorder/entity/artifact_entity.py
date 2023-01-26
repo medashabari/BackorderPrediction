@@ -9,7 +9,14 @@ class DataIngestionArtifact:
 @dataclass
 class DatavalidationArtifact:
     report_file_path:str
-class DataTransformationArtifact:...
+
+@dataclass
+class DataTransformationArtifact:
+    transformer_object_file_path:str
+    transformed_train_path:str 
+    transformed_test_path:str 
+    categorical_encoder_object_file_path:str
+    target_encoder_object_file_path:str
 class ModelTrainerArtifact:...
 class ModelEvaluationArtifact:...
 class ModelPusherArtifact:...
