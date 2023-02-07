@@ -6,7 +6,6 @@ matplotlib
 seaborn
 pyarrow
 fastparquet
-sklearn
 scikit-learn
 scipy
 xgboost

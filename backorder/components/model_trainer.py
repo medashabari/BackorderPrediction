@@ -65,7 +65,7 @@ class ModelTrainer:
             diff = abs(f1_train_score-f1_test_score)
 
             if diff >self.model_trainer_config.over_fitting_threshold:
-                raise Exception(f"Train and test score diff : {diff} is more than overfitting threshold {self.model_trainer_config.overfitting_thres}")
+                raise Exception(f"Train and test score diff : {diff} is more than overfitting threshold {self.model_trainer_config.over_fitting_threshold}")
 
             logging.info('Saving model object')
             utils.save_object(file_path=self.model_trainer_config.model_object_path, obj=model)
