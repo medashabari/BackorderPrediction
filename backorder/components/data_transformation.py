@@ -92,7 +92,7 @@ class DataTransformation:
 
             # Handling the imbalance data
             logging.info("Handling the imbalance data")
-            smt = SMOTETomek(random_state=42,sampling_strategy='minority')
+            smt = SMOTETomek(random_state=42,sampling_strategy='minority',n_jobs=-1)
 
             logging.info(f'Before resampling the shape of the training set :{input_feature_train_array.shape} Target : {target_feature_train_array.shape}')
 

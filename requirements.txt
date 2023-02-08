@@ -8,7 +8,6 @@ pyarrow
 fastparquet
 scikit-learn
 scipy
-xgboost
 imbalanced-learn
 catboost
 python-dotenv==0.21.0
