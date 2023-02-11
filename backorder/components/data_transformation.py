@@ -71,6 +71,15 @@ class DataTransformation:
             target_feature_train_array = labelencoder.transform(target_feature_train_df)
             target_feature_test_array = labelencoder.transform(target_feature_test_df)
 
+            # Transformation on numerical input featues
+            logging.info("Get numerical  pipeline object")
+            transformation_pipeline_obj = DataTransformation.get_data_transformer_object()
+            numerical_features = utils.return_numerical_features(input_feature_train_df)  
+            logging.info(f"Numerical features {numerical_features}")          
+            logging.info("Transformation on numerical input featues")
+            input_feature_train_df[numerical_features] = transformation_pipeline_obj.fit_transform(input_feature_train_df[numerical_features])
+            input_feature_test_df[numerical_features] = transformation_pipeline_obj.transform(input_feature_test_df[numerical_features])
+
             # Handling Categorical features
 
             logging.info('Handling Categorical Features')
@@ -80,19 +89,13 @@ class DataTransformation:
             input_feature_train_df[categorical_features] = ohe.fit_transform(input_feature_train_df[categorical_features])
             input_feature_test_df[categorical_features] = ohe.transform(input_feature_test_df[categorical_features])
 
-            # Get Numerical and categorical pipeline objects
-            logging.info("Get numerical  pipeline object")
-            transformation_pipeline_obj = DataTransformation.get_data_transformer_object()
 
-            transformation_pipeline_obj.fit(input_feature_train_df)
-            # Transformation on input featues
-            logging.info("Transformation on input featues")
-            input_feature_train_array = transformation_pipeline_obj.transform(input_feature_train_df)
-            input_feature_test_array  = transformation_pipeline_obj.transform(input_feature_test_df)
+            input_feature_train_array = input_feature_train_df.to_numpy()
+            input_feature_test_array = input_feature_test_df.to_numpy()
 
             # Handling the imbalance data
             logging.info("Handling the imbalance data")
-            smt = SMOTETomek(random_state=42,sampling_strategy='minority',n_jobs=-1)
+            smt = SMOTETomek(random_state=42,sampling_strategy='minority')
 
             logging.info(f'Before resampling the shape of the training set :{input_feature_train_array.shape} Target : {target_feature_train_array.shape}')
 

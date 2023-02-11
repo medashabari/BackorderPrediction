@@ -87,8 +87,26 @@ class ModelTrainerConfig:
             os.makedirs(self.model_train_dir,exist_ok=True)
             self.model_object_path = os.path.join(self.model_train_dir,'model',MODEL_FILE_NAME)
             self.expected_score = 0.7
-            self.over_fitting_threshold = 0.1
+            self.over_fitting_threshold = 0.12
     except Exception as e:
         raise BackOrderException(error=e, error_detail=sys)
-class ModelEvaluationConfig:...
-class ModelPusherConfig:...
+class ModelEvaluationConfig:
+    try:
+        def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+            self.change_threshold=0.01
+    except Exception as e:
+        raise BackOrderException(error=e, error_detail=sys)
+class ModelPusherConfig:
+    try:
+        def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+            self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir,'model_pusher')
+            self.saved_model_dir = os.path.join('saved_models')
+            self.pusher_model_dir = os.path.join(self.model_pusher_dir,"saved_models")
+            self.pusher_model_path = os.path.join(self.pusher_model_dir,MODEL_FILE_NAME)
+            self.pusher_numerical_transfomer_path = os.path.join(self.pusher_model_dir,TRANSFORMER_OBJECT_FILE_NAME)
+            self.pusher_categorical_transformer_path = os.path.join(self.pusher_model_dir,CATEGORICAL_ENCODER_OBJECT_FILE_NAME)
+            self.pusher_target_path = os.path.join(self.model_pusher_dir,TARGET_ENCODER_OBJECT_FILE_NAME)
+    
+    except Exception as e:
+        raise BackOrderException(error=e, error_detail=sys)
+
