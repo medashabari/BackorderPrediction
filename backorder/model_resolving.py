@@ -49,8 +49,8 @@ class ModelResolver:
             if latest_dir is None:
                 logging.info("Model is not available")
                 raise Exception("Model is not available")
-            logging.info(f"Latest model path {os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_PATH)}")
-            return os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_PATH)
+            logging.info(f"Latest model path {os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_NAME)}")
+            return os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_NAME)
         except Exception as e:
             raise e
 
@@ -60,7 +60,7 @@ class ModelResolver:
             if latest_dir is None:
                 logging.info("Transformer is not available")
                 raise Exception("Transformer is not available")
-            logging.info(f"Latest Transfomer path {os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_PATH)}")
+            logging.info(f"Latest Transfomer path {os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)}")
             return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)
         except Exception as e:
             raise e
@@ -69,10 +69,10 @@ class ModelResolver:
         try:
             latest_dir = self.get_latest_dir_path()
             if latest_dir is None:
-                logging.info("Transformer is not available")
-                raise BackOrderException(error="Transformer is not available",error_detail=sys)
-            logging.info(f"Latest categotical encoder path {os.path.join(latest_dir,self.model_dir_name,CATEGORICAL_ENCODER_OBJECT_FILE_NAME)}")
-            return os.path.join(latest_dir,self.model_dir_name,CATEGORICAL_ENCODER_OBJECT_FILE_NAME) 
+                logging.info("Categorical encoder is not available")
+                raise BackOrderException(error="Categprical encoder is not available",error_detail=sys)
+            logging.info(f"Latest categotical encoder path {os.path.join(latest_dir,self.categorical_encoder_dir_name,CATEGORICAL_ENCODER_OBJECT_FILE_NAME)}")
+            return os.path.join(latest_dir,self.categorical_encoder_dir_name,CATEGORICAL_ENCODER_OBJECT_FILE_NAME) 
         except Exception as e:
             raise e
     
@@ -105,8 +105,8 @@ class ModelResolver:
     def get_latest_save_model_path(self):
         try:
             latest_dir = self.get_latest_save_dir_path()
-            logging.info(f"Latest saving model path {os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_PATH)}")
-            return os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_PATH)
+            logging.info(f"Latest saving model path {os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_NAME)}")
+            return os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_NAME)
         except Exception as e:
             raise e
 

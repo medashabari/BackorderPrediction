@@ -57,7 +57,7 @@ class ModelEvaluation:
             logging.info("Loading currently trained model objects")
 
             current_numerical_transformer = load_object(file_path=self.data_transformation_artifact.transformer_object_file_path)
-            current_model = load_object(file_path=self.model_trainer_artifact.model_path)
+            current_model = load_object(file_path=self.model_trainer_artifact.model_file_path)
             current_categorical_transformer = load_object(file_path=self.data_transformation_artifact.categorical_encoder_object_file_path)
             current_target_encoder = load_object(file_path=self.data_transformation_artifact.target_encoder_object_file_path)
 
@@ -89,7 +89,7 @@ class ModelEvaluation:
 
             input_arr1 = test_df1[input_numerical_features1+input_categorical_features1].to_numpy()
             logging.info("predicting using current model")
-            y_pred1 = model.predict(input_arr1)
+            y_pred1 = current_model.predict(input_arr1)
 
             current_model_score = f1_score(y_true1,y_pred1)
             logging.info(f"accuracy using current trained model {current_model_score}")
