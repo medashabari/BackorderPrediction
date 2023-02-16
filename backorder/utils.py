@@ -27,6 +27,7 @@ def get_parquet_as_dataFrame(bucket_name:str,filename:str)->pd.DataFrame:
         client.download_file(bucket_name,filename,filename)
         logging.info('Reading File')
         df = pd.read_parquet("/config/workspace/"+filename)
+        df.reset_index(inplace=True,drop=True)
         logging.info(f'Shape of the dataset {df.shape}')
         logging.info(f'Columns found \n {df.columns}')
         return df

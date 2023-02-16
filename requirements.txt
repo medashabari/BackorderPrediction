@@ -16,4 +16,5 @@ s3fs
 PyYAML
 dill
 imblearn
+statsmodels
 -e .
