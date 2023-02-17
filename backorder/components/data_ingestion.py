@@ -15,7 +15,7 @@ class DataIngestion:
     def __init__(self,data_ingestion_config:config_entity.DataIngestionConfig):
         try:
             logging.info("==============================================================")
-            logging.info("================Started DataIngestion ========================")
+            logging.info(f"{'=='*20} Started DataIngestion {'=='*20}")
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
             BackOrderException(error=e, error_detail=sys)
@@ -39,12 +39,12 @@ class DataIngestion:
             df.replace(to_replace='na',value=np.nan,inplace=True)
 
             # dropping dupliactes 
-            dupliacte_values = df.duplicated().sum()
-            logging.info(f'Number of duplicate values are {dupliacte_values}')
+            duplicate_values = df.duplicated().sum()
+            logging.info(f'Number of duplicate values are {duplicate_values}')
             logging.info(f'Dropping duplicates')
             df.drop_duplicates(inplace=True)
-            dupliacte_values = df.duplicated().sum()
-            logging.info(f'Number of duplicate values after dropping {dupliacte_values}')
+            duplicate_values = df.duplicated().sum()
+            logging.info(f'Number of duplicate values after dropping {duplicate_values}')
             # In analysis we saw 1 row with entire nan values
             df.dropna(thresh=10,inplace=True)
 
@@ -63,7 +63,7 @@ class DataIngestion:
 
             # splitting the dataset into train and test sets
             logging.info('splitting the dataset into train and test sets')
-            train_df,test_df=train_test_split(df,test_size=self.data_ingestion_config.test_size,random_state=10)
+            train_df,test_df=train_test_split(df,test_size=self.data_ingestion_config.test_size,random_state=42)
 
             # creating dataset folders for train and test sets if not available 
             logging.info("creating dataset folders for train and test sets if not available ")

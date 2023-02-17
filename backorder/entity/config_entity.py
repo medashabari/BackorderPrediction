@@ -39,7 +39,7 @@ class DataIngestionConfig:
 
             self.test_file_path = os.path.join(self.data_ingestion_dir,'DATASET',TEST_FILE_NAME)
 
-            self.test_size = 0.33
+            self.test_size = 0.10
 
 
         except Exception as e:

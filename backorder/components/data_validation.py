@@ -17,7 +17,7 @@ class DataValidation:
 
     def __init__(self,data_validation_config:config_entity.DataValidationConfig,data_ingestion_artifact:artifact_entity.DataIngestionArtifact):
         try:
-            logging.info('============================= Data validation ===============================')
+            logging.info(f" {'=='*20} Data validation {'=='*20}")
             self.data_validation_config = data_validation_config
             self.data_ingestion_artifact = data_ingestion_artifact
             self.validation_errors = dict()

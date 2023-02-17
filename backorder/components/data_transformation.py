@@ -6,8 +6,7 @@ import pandas as pd
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import RobustScaler, OneHotEncoder, LabelEncoder
-from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import PowerTransformer, OneHotEncoder, LabelEncoder
 from imblearn.combine import SMOTETomek
 import os,sys
 
@@ -18,7 +17,7 @@ class DataTransformation:
     """
     def __init__(self,data_ingestion_artifact:artifact_entity.DataIngestionArtifact,data_transformation_config:config_entity.DataTransformationConfig):
         try:
-            logging.info("==================================DataTransformation=============================================")
+            logging.info(f" {'=='*20} DataTransformation{'=='*20}")
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_transformation_config = data_transformation_config
         except Exception as e:
@@ -32,7 +31,7 @@ class DataTransformation:
         try:
             numerical_pipeline = Pipeline(steps=[
             ('si',SimpleImputer(strategy='median')),
-            ('rs',RobustScaler()),
+            ('pt',PowerTransformer()),
             ])
             return numerical_pipeline
         except Exception as e:

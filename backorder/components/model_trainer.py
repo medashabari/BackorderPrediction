@@ -2,7 +2,7 @@ from backorder.exception import BackOrderException
 from backorder.logger import logging
 import os, sys 
 from backorder.entity import config_entity,artifact_entity
-from sklearn.ensemble import RandomForestClassifier
+from imblearn.ensemble import BalancedBaggingClassifier
 from sklearn.metrics import f1_score
 from backorder import utils
 
@@ -12,7 +12,7 @@ class ModelTrainer:
     """
     def __init__(self,data_transformation_artifact:artifact_entity.DataTransformationArtifact,model_trainer_config: config_entity.ModelTrainerConfig):
         try:
-            logging.info("=================================Model Trainer====================================")
+            logging.info(f"{'=='*20} Model Trainer {'=='*20}")
             self.data_transformation_artifact = data_transformation_artifact
             self.model_trainer_config = model_trainer_config
         except Exception as e:
@@ -28,7 +28,7 @@ class ModelTrainer:
         Return:
             RandomForestClassifier Model
         """
-        random_forest_classifier = RandomForestClassifier()
+        random_forest_classifier = BalancedBaggingClassifier(n_estimators=10,bootstrap=True,oob_score=True)
         random_forest_classifier.fit(X,y)
         return random_forest_classifier
 
@@ -49,12 +49,12 @@ class ModelTrainer:
 
             logging.info("Training Predictions")
             yhat_train = model.predict(X_train)
-            f1_train_score = f1_score(y_true=y_train, y_pred=yhat_train)
+            f1_train_score = f1_score(y_true=y_train, y_pred=yhat_train,average='macro')
             logging.info(f"Training f1 score {f1_train_score}")
 
             logging.info("Testing the model")
             yhat_test = model.predict(X_test)
-            f1_test_score = f1_score(y_true=y_test, y_pred=yhat_test)
+            f1_test_score = f1_score(y_true=y_test, y_pred=yhat_test,average='macro')
             logging.info(f"Testing f1 score {f1_test_score}")
 
             # Checking for Expected test score
