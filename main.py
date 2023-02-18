@@ -8,6 +8,8 @@ from backorder.components.data_transformation import DataTransformation
 from backorder.components.model_trainer import ModelTrainer
 from backorder.components.model_evaluation import ModelEvaluation
 from backorder.components.model_pusher import ModelPusher
+import warnings
+warnings.filterwarnings('ignore')
 if __name__ == '__main__':
      try:
           training_pipeline_config =  config_entity.TrainingPipelineConfig()

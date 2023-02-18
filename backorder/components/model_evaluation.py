@@ -73,7 +73,7 @@ class ModelEvaluation:
             input_arr = test_df[input_numerical_features+input_categorical_features].to_numpy()
             logging.info("predicting using previous model")
             y_pred = model.predict(input_arr)
-            previous_model_score = f1_score(y_true,y_pred,average='macro')
+            previous_model_score = f1_score(y_true,y_pred,average='micro')
             logging.info(f"accuracy using previously trained model {previous_model_score}")
 
             # current accuracy
@@ -91,7 +91,7 @@ class ModelEvaluation:
             logging.info("predicting using current model")
             y_pred1 = current_model.predict(input_arr1)
 
-            current_model_score = f1_score(y_true1,y_pred1,average='macro')
+            current_model_score = f1_score(y_true1,y_pred1,average='micro')
             logging.info(f"accuracy using current trained model {current_model_score}")
 
             if current_model_score <= previous_model_score:

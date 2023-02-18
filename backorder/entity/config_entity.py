@@ -87,7 +87,7 @@ class ModelTrainerConfig:
             os.makedirs(self.model_train_dir,exist_ok=True)
             self.model_object_path = os.path.join(self.model_train_dir,'model',MODEL_FILE_NAME)
             self.expected_score = 0.7
-            self.over_fitting_threshold = 0.12
+            self.over_fitting_threshold = 0.10
     except Exception as e:
         raise BackOrderException(error=e, error_detail=sys)
 class ModelEvaluationConfig:

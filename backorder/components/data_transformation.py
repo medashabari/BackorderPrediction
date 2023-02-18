@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import PowerTransformer, OneHotEncoder, LabelEncoder
-from imblearn.combine import SMOTETomek
+from imblearn.over_sampling import SMOTE
 import os,sys
 
 
@@ -94,7 +94,7 @@ class DataTransformation:
 
             # Handling the imbalance data
             logging.info("Handling the imbalance data")
-            smt = SMOTETomek(random_state=42,sampling_strategy='minority')
+            smt = SMOTE(random_state=42,sampling_strategy='minority',k_neighbors=99)
 
             logging.info(f'Before resampling the shape of the training set :{input_feature_train_array.shape} Target : {target_feature_train_array.shape}')
 
