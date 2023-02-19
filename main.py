@@ -1,56 +1,13 @@
 import os, sys
 from backorder.exception import BackOrderException 
 from backorder.logger import logging 
-from backorder.entity import config_entity
-from backorder.components.data_ingestion import DataIngestion
-from backorder.components.data_validation import DataValidation
-from backorder.components.data_transformation import DataTransformation
-from backorder.components.model_trainer import ModelTrainer
-from backorder.components.model_evaluation import ModelEvaluation
-from backorder.components.model_pusher import ModelPusher
+from backorder.pipeline import training_pipeline
 import warnings
 warnings.filterwarnings('ignore')
 if __name__ == '__main__':
      try:
-          training_pipeline_config =  config_entity.TrainingPipelineConfig()
-
-          data_ingestion_config = config_entity.DataIngestionConfig(training_pipeline_config)
-
-          data_ingestion = DataIngestion(data_ingestion_config)
-
-          data_ingestion_artifact = data_ingestion.initiate_data_ingestion()
-
-          data_validation_config = config_entity.DataValidationConfig(training_pipeline_config)
-
-          data_validation = DataValidation(data_validation_config, data_ingestion_artifact)
-
-          data_validation_artifact = data_validation.initiate_data_validation()
-
-          data_transformation_config = config_entity.DataTransformationConfig(training_pipeline_config)
-
-          data_transformation = DataTransformation(data_ingestion_artifact, data_transformation_config)
-
-          data_transformation_artifact = data_transformation.initiate_data_transformation()
-
-          model_trainer_config = config_entity.ModelTrainerConfig(training_pipeline_config)
-
-          model_trainer = ModelTrainer(data_transformation_artifact, model_trainer_config)
-
-          model_trainer_artifact = model_trainer.initiate_model_training()
-
-          model_eval_config = config_entity.ModelEvaluationConfig(training_pipeline_config)
-
-          model_evaluation = ModelEvaluation(model_eval_config, data_ingestion_artifact, data_transformation_artifact, model_trainer_artifact)
-
-          model_evaluation_artifact = model_evaluation.initiate_model_evaluation()
-          
-          model_pusher_config = config_entity.ModelPusherConfig(training_pipeline_config)
-
-          model_pusher = ModelPusher(model_pusher_config, data_transformation_artifact, model_trainer_artifact)
-
-          model_pusher_artifact = model_pusher.initiate_model_pusher()
-
-
-
+          logging.info("Initiating Training PipeLine")
+          training_pipeline.start_training_pipeline()
+          logging.info("Training Completed")
      except Exception as e:
           raise BackOrderException(error=e, error_detail=sys)
