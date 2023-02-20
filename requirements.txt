@@ -9,7 +9,6 @@ fastparquet
 scikit-learn
 scipy
 imbalanced-learn
-catboost
 python-dotenv==0.21.0
 boto3==1.24.76
 s3fs
