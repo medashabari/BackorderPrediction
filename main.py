@@ -1,19 +1,16 @@
-import os, sys
-from backorder.exception import BackOrderException 
-from backorder.logger import logging 
-from backorder.pipeline import training_pipeline
-from backorder.pipeline.batch_prediction import start_batch_prediction
-import warnings
-warnings.filterwarnings('ignore')
+from flask import Flask, request, render_template, jsonify
+from flask_cors import CORS,cross_origin
+
+app = Flask(__name__)
+
+@app.route("/home",methods = ['GET','POST'])
+@cross_origin()
+def home():
+     render_template('home.html')
+
+@app.route("/prediction_type",methods=['GET','POST'])
+@cross_origin()
+def prediction_type():
+     ...
 if __name__ == '__main__':
-     try:
-          logging.info("Initiating Training PipeLine")
-          training_pipeline.start_training_pipeline()
-          logging.info("Training Completed")
-          logging.info("Batch prediction")
-          print(start_batch_prediction('/config/workspace/test_bo_.parquet.gzip'))
-          logging.info("Batch prediction completed")
-
-
-     except Exception as e:
-          raise BackOrderException(error=e, error_detail=sys)
+     app.run(debug=True)

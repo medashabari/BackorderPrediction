@@ -16,4 +16,5 @@ PyYAML
 dill
 imblearn
 statsmodels
+flask
 -e .
