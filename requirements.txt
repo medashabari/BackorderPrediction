@@ -17,4 +17,5 @@ dill
 imblearn
 statsmodels
 flask
+flask-cors
 -e .

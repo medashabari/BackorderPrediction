@@ -3,17 +3,28 @@
 {% block head %}
 
 <title>Backorder Home Page</title>
+
 {% endblock %}
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Search</h1>
-
+    <h1 style="text-align: center">Backorder Prediction</h1>
     <div class="form">
-        <form action="/prediction_type" method="POST">
-            <input type="text" name="content" id="content">
-            <input type="submit" value="Search">
+        <form action="/predictiontype" method="POST" style="text-align: center">
+            <fieldset>
+                <legend>Select Prediction Type:</legend><br>
+                <div>
+
+                  <input type="radio" id="Instance" name="prediction" value="instanceprediction" />
+                  <label for="Instace">Instance Prediction</label>
+            
+                  <input type="radio" id="Batch" name="prediction" value="batchprediction" />
+                  <label for="Batch">BatchPrediction</label>
+
+                  <button type="submit">Submit</button>
+                </div>
+            </fieldset>  
         </form>
     </div>
 </div>
-{% endblock %}v
+{% endblock %} 
