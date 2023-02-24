@@ -2,83 +2,60 @@
 
 {% block head %}
 <title>Instance Prediction</title>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %} 
 
 {% block body %}
-<div>
-    <center>
+<center>
+    <div>
         <form action="/instanceprediction" method="POST">
         <h1>Instance Prediction</h1>
         <label for="Current inventory level for the product">Current inventory level for the product</label><br>
-        <input type = 'text' name = "national_inv" value="national_inv"/> <br>
+        <input type = 'number' name = "national_inv" required/> <br>
         <label for = "Transit time for product">Transit time for product</label><br>
-        <input type = 'text' name = "lead_time" value="lead_time"/> <br>
+        <input type = 'number' name = "lead_time" required/> <br>
         <label for = " Amount of products in transit from source">Amount of products in transit from source</label><br>
-        <input type = 'text' name = "in_transit_qty" value="in_transit_qty"/> <br>
+        <input type = 'number' name = "in_transit_qty" required/> <br>
         <label for="Forecast sales for the next 3 months">Forecast sales for the next 3 months</label><br>
-        <input type = 'text' name = "forecast_3_month" value="forecast_3_month"/><br>
+        <input type = 'number' name = "forecast_3_month" required/><br>
         <label for="Forecast sales for the next 6 months">Forecast sales for the next 6 months</label><br>
-        <input type = 'text' name = "forecast_6_month" value="forecast_6_month"/><br>
+        <input type = 'number' name = "forecast_6_month" required/><br>
         <label for="Forecast sales for the next 9 months">Forecast sales for the next 9 months</label><br>
-        <input type = 'text' name = "forecast_9_month" value="forecast_9_month"/><br>
+        <input type = 'number' name = "forecast_9_month" required/><br>
         <label for="Sales quantity for the prior 1 month time period">Sales quantity for the prior 1 month time period</label><br>
-        <input type = 'text' name = "sales_1_month" value="sales_1_month"/><br>
+        <input type = 'number' name = "sales_1_month" required/><br>
         <label for="Sales quantity for the prior 3 month time period">Sales quantity for the prior 3 month time period</label><br>
-        <input type = 'text' name = "sales_3_month" value="sales_3_month"/><br>
+        <input type = 'number' name = "sales_3_month" required/><br>
         <label for="Sales quantity for the prior 6 month time period">Sales quantity for the prior 6 month time period</label><br>
-        <input type = 'text' name = "sales_6_month" value="sales_6_month"/><br>
+        <input type = 'number' name = "sales_6_month" required/><br>
         <label for="Sales quantity for the prior 9 month time period">Sales quantity for the prior 9 month time period</label><br>
-        <input type = 'text' name = "sales_9_month" value="sales_9_month"/><br>
+        <input type = 'number' name = "sales_9_month" required/><br>
         <label for="Minimum recommend amount to stock">Minimum recommend amount to stock</label><br>
-        <input type = 'text' name = "min_bank" value="min_bank"/><br>
+        <input type = 'number' name = "min_bank" required/><br>
         <label for="PotentialIssue(Yes or No)">PotentialIssue(Yes or No)</label><br>
-        <input type = 'text' name = "potential_issue" value="potential_issue"/><br>
-        <label for="Products overdue from source(Yes or No)">Products overdue from source(Yes or No)</label><br>
-        <input type = 'text' name = "pieces_past_due" value="pieces_past_due"/><br>
+        <input type = 'text' name = "potential_issue" required/><br>
+        <label for="Products overdue from source">Products overdue from source</label><br>
+        <input type = 'number' name = "pieces_past_due" required/><br>
         <label for="Source performance for prior 6 month period">Source performance for prior 6 month period</label><br>
-        <input type = 'text' name = "perf_6_month_avg" value="perf_6_month_avg"/><br>
+        <input type = 'number' name = "perf_6_month_avg" required/><br>
         <label for="Source performance for prior 12 month period">Source performance for prior 12 month period</label><br>
-        <input type = 'text' name = "perf_12_month_avg" value="perf_12_month_avg"/><br>
+        <input type = 'number' name = "perf_12_month_avg" required/><br>
         <label for="Amount of stock orders overdue">Amount of stock orders overdue</label><br>
-        <input type = 'text' name = "local_bo_qty" value="local_bo_qty"/><br>
+        <input type = 'number' name = "local_bo_qty" required/><br>
         <label for="The products that might remain in the deck/shop/stock)(Yes or No)">The products that might remain in the deck/shop/stock)(Yes or No)</label><br>
-        <input type = 'text' name = "deck_risk" value="deck_risk"/><br>
+        <input type = 'text' name = "deck_risk" required/><br>
         <label for="Products that are facing operational limiting factors such as bottleneck(Yes or No)">Products that are facing operational limiting factors such as bottleneck(Yes or No)</label><br>
-        <input type = 'text' name = "oe_constraint" value="oe_constraint"/><br>
+        <input type = 'text' name = "oe_constraint" required/><br>
         <label for="Risks associated with packaging and production (Yes Or No)">Risks associated with packaging and production (Yes Or No)</label><br>
-        <input type = 'text' name = "ppap_risk" value="ppap_risk"/><br>
+        <input type = 'text' name = "ppap_risk" required/><br>
         <label for="Whether automatic selling process has been stopped or not">Whether automatic selling process has been stopped or not</label><br>
-        <input type = 'text' name = "stop_auto_buy" value="stop_auto_buy"/><br>
+        <input type = 'text' name = "stop_auto_buy" required/><br>
         <label for="Revenue status for product">Revenue status for product</label><br>
-        <input type = 'text' name = "rev_stop" value="rev_stop"/><br>
+        <input type = 'text' name = "rev_stop" required/><br>
         <input type="submit" value="submit"><br>
         </form>  
-    </center>
-</div>
 
+    </div>
+</center>
 
 {% endblock %} 
-
-
-d = {'national_inv': 0.0,
-          'lead_time': 8.0,
-          'in_transit_qty': 0.0,
-          'forecast_3_month': 0.0,
-          'forecast_6_month': 0.0,
-          'forecast_9_month': 0.0,
-          'sales_1_month': 0.0,
-          'sales_3_month': 0.0,
-          'sales_6_month': 0.0,
-          'sales_9_month': 0.0,
-          'min_bank': 1.0,
-          'potential_issue': 'No',
-          'pieces_past_due': 0.0,
-          'perf_6_month_avg': 0.98,
-          'perf_12_month_avg': 0.98,
-          'local_bo_qty': 0.0,
-          'deck_risk': 'No',
-          'oe_constraint': 'No',
-          'ppap_risk': 'Yes',
-          'stop_auto_buy': 'Yes',
-          'rev_stop': 'No'}

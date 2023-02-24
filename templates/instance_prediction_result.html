@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Instance Prediction</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %} 
+
+{% block body %}
+<center>
+    <h1>{{ result }}</h1>
+</center>
+{% endblock %} 
