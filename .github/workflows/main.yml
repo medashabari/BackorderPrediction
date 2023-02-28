@@ -12,4 +12,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - name: Build and Push to Docker Hub
+      uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: shabarimeda@03/backorderapp:latest
+
         
