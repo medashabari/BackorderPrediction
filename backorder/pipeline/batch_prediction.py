@@ -11,8 +11,6 @@ PREDICTION_DIR = 'predictions'
 
 def start_batch_prediction(url = None ,input_file_path='sample_bo.parquet.gzip'):
     try:
-        logging.info("Creating Prediction Directory")
-        os.makedirs(PREDICTION_DIR,exist_ok=True)
         logging.info("Creating Model resolver Object")
         model_resolver = ModelResolver(model_registry='saved_models')
         logging.info(f"Input file name {input_file_path}")
@@ -46,11 +44,12 @@ def start_batch_prediction(url = None ,input_file_path='sample_bo.parquet.gzip')
         targer_encoder = load_object(model_resolver.get_latest_target_encoder_path())        
         pred = targer_encoder.inverse_transform(ypred.astype(int))
 
+        df[input_feature_names2] = catergorical_transformer.inverse_transform(df[input_feature_names2])
         df['prediction'] = ypred
         df['cat_prediction'] = pred
         prediction_file_name = os.path.basename(input_file_path).replace(".parquet.gzip",f"{datetime.now().strftime('%m%d%Y__%H%M%S')}.csv")
         prediction_file_path  = os.path.join(PREDICTION_DIR,prediction_file_name)
-        df.to_csv(prediction_file_path,index=False,header=True)
+        #df.to_csv(prediction_file_path,index=False,header=True)
         return df,prediction_file_path 
         
         

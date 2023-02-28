@@ -1,5 +1,5 @@
 from backorder.exception import BackOrderException
-from backorder.logger import logging
+
 from backorder.utils import load_object
 from backorder.model_resolving import ModelResolver
 from datetime import datetime
@@ -11,7 +11,6 @@ import numpy as np
 def instance_prediction(input_dict)->str:
     try:
         df = pd.DataFrame(data=[input_dict.values()],columns=input_dict.keys())
-        logging.info("Loading model resolver")
         model_resolver = ModelResolver(model_registry='saved_models')
         numerical_transformer = load_object(model_resolver.get_latest_transformer_path())
         input_feature_names1 = numerical_transformer.feature_names_in_

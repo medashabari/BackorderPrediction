@@ -39,7 +39,7 @@ def batchprediction():
                url = request.form['url']
                df,file_path = start_batch_prediction(url=url)
                if 'cat_prediction' in df.columns:
-                    return f"<h1> First 5 Predictions </h1> <br> {df.head().to_html()}"
+                    return f"<h1> First 100 Predictions </h1> <br> {df.head(100).to_html()}"
      except Exception as e:
           raise BackOrderException(error=e, error_detail=sys)
 
