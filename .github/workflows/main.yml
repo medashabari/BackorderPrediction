@@ -17,6 +17,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: shabarimeda@03/backorderapp:latest
+        tags: shabarimeda03/backorderapp:latest
 
         
