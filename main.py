@@ -74,22 +74,13 @@ if pred_type=="InstancePrediction":
             ## The product is going to be backorderd""")
 
 if pred_type == 'BatchPrediction':
-    data_type = st.selectbox("Select batch prediction type",("select type","Githuburl","upload dataset"))
-    if data_type == "Githuburl":
-        github_url = st.text_input("Please enter the github url",value="None")
-        if st.button("Submit"):
-            if github_url !=  "None":
-                df = pd.read_parquet(github_url)
-                df = start_batch_prediction(df=df)
-                st.write(df)
-                csv=convert_df(df)
-                btn =st.download_button("Dowload Prediction file",data=csv,file_name='predictions.csv')
-    elif data_type == "upload dataset":
-        uploadedfile = st.file_uploader("Upload your data")
-        if st.button("Submit"):
-            if uploadedfile is not None:
-                df = pd.read_csv(uploadedfile)
-                df = start_batch_prediction(df=df)
-                st.write(df)
-                csv=convert_df(df)
-                btn =st.download_button("Dowload Prediction file",data=csv,file_name='predictions.csv')
+    st.write("""
+    ## Batch Prediction Upload Dataset""")
+    uploadedfile = st.file_uploader("Upload your data")
+    if st.button("Submit"):
+        if uploadedfile is not None:
+            df = pd.read_csv(uploadedfile)
+            df = start_batch_prediction(df=df)
+            st.write(df)
+            csv=convert_df(df)
+            btn =st.download_button("Dowload Prediction file",data=csv,file_name='predictions.csv')
