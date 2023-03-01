@@ -1,71 +1,86 @@
-from flask import Flask, request, render_template, jsonify
-from flask_cors import CORS,cross_origin
-from backorder.exception import BackOrderException
+import streamlit as st 
 from backorder.pipeline.batch_prediction import start_batch_prediction
 from backorder.pipeline.instance_prediction import instance_prediction
 import warnings
 import os,sys
+import pandas as pd
 warnings.filterwarnings('ignore')
 
-# Creating The Flask Object
-app = Flask(__name__)
+st.write("""
+# Backorder Prediction""")
 
-#Routing to Home Page
-@app.route('/',methods = ['GET','POST'])
-@cross_origin()
-def home():
-     return render_template('home.html')
+pred_type=st.sidebar.selectbox(
+    "PREDICTION TYPE",
+    ("Please select prediction type","InstancePrediction","BatchPrediction")
+)
 
-#Routing to select prediction type
-@app.route("/predictiontype",methods = ['POST','GET'])
-@cross_origin()
-def predictiontype():
-     try:
-          if request.method == 'POST':
-               pred_type = request.form['prediction']
-               if pred_type == 'batchprediction':
-                    return render_template('batchprediction.html')
-               elif pred_type == 'instanceprediction':
-                    return render_template('instanceprediction.html')
-     except Exception as e:
-          raise BackOrderException(error=e, error_detail=sys)
+if pred_type=="InstancePrediction":
+    d={}
+    national_inv = st.number_input("Current inventory level for the product")
+    d['national_inv'] = national_inv
+    lead_time = st.number_input("Transit time for product",min_value=0)
+    d['lead_time'] = lead_time
+    transit_time = st.number_input("Amount of products in transit from source",min_value=0)
+    d['in_transit_qty'] = transit_time
+    forecast3 = st.number_input("Forecast sales for the next 3 months",min_value=0)
+    d['forecast_3_month'] = forecast3
+    forecast6 = st.number_input("Forecast sales for the next 6 months",min_value=0)
+    d["forecast_6_month"] = forecast6
+    forecast9 = st.number_input("Forecast sales for the next 9 months",min_value=0)
+    d['forecast_9_month'] = forecast6
+    sale1 = st.number_input("Sales quantity for the prior 1 month time period",min_value=0)
+    d['sales_1_month'] = sale1
+    sale3 = st.number_input("Sales quantity for the prior 3 month time period",min_value=0)
+    d['sales_3_month'] = sale3
+    sale6 = st.number_input("Sales quantity for the prior 6 month time period",min_value=0)
+    d['sales_6_month'] = sale6
+    sale9 = st.number_input("Sales quantity for the prior 9 month time period",min_value=0)
+    d['sales_9_month'] = sale9
+    min_bank = st.number_input("Minimum recommend amount to stock",min_value=0)
+    d["min_bank"] = min_bank
+    potential_issue = st.radio("Source issue for part identified (Potential damage)",("Yes","No"))
+    d['potential_issue']= potential_issue
+    pieces_past = st.number_input("Parts overdue from source (Products overdue from source)",min_value=0)
+    d['pieces_past_due'] = pieces_past
+    perf6 = st.number_input("Source performance for prior 6 month period",min_value=-99,max_value=1)
+    d['perf_6_month_avg'] = perf6
+    perf12 = st.number_input("Source performance for prior 12 month period",min_value=-99,max_value=1)
+    d['perf_12_month_avg'] = perf12
+    local_bo_quantity = st.number_input("Amount of stock orders overdue",min_value=0)
+    d['local_bo_qty'] = local_bo_quantity
+    deck_risk = st.radio("Part risk flag(The products that might remain in the deck/shop/stock)",("Yes","No"))
+    d['deck_risk'] = deck_risk
+    oe_constraint = st.radio("Part risk flag(Products that are facing operational limiting factors such as bottleneck)",("Yes","No"))
+    d['oe_constraint'] = oe_constraint
+    ppap_risk = st.radio("Part risk flag (Risks associated with packaging and production )",("Yes","No"))
+    d['ppap_risk'] = ppap_risk
+    stop_auto_buy = st.radio("Part risk flag(Whether automatic selling process has been stopped or not)",("Yes","No"))
+    d['stop_auto_buy'] = stop_auto_buy
+    rev_stop = st.radio("Part risk flag (Revenue status for product)",('Yes','No'))
+    d['rev_stop'] = rev_stop
 
-#Routing to perform batchprediction
-@app.route("/batchprediction",methods = ['POST','GET'])
-@cross_origin()
-def batchprediction():
-     try:
-          if request.method == 'POST':
-               url = request.form['url']
-               df,file_path = start_batch_prediction(url=url)
-               if 'cat_prediction' in df.columns:
-                    return f"<h1> First 100 Predictions </h1> <br> {df.head(100).to_html()}"
-     except Exception as e:
-          raise BackOrderException(error=e, error_detail=sys)
+    if st.button("Submit",help='Please click submit it all values are entered'):
+        pred = instance_prediction(d)
+        if pred == 'No':
+            st.write("""
+            ## The product is not going to be backordered""")
+        elif pred == 'Yes':
+            st.write("""
+            ## The product is going to be backorderd""")
 
-#Routing to perform instance prediction
-@app.route("/instanceprediction",methods=['GET','POST'])
-@cross_origin()
-def instanceprediction():
-     try:
-          if request.method == 'POST':
-               data_dict = request.form.to_dict()
-               for key,value in data_dict.items():
-                    if type(value)==str:
-                         data_dict[key] = value.capitalize()
-               pred = instance_prediction(data_dict)
-               if pred == "No":
-                    res = "The Product is not going be BackOrdered"
-                    return render_template('instance_prediction_result.html', result=res)
-               elif pred == 'Yes':
-                    res = "The Product is going to be Backordered"
-                    return render_template('instance_prediction_result.html', result=res)
-     except Exception as e:
-          raise BackOrderException(error=e, error_detail=sys)
-
-          
-
-
-
-if __name__ == '__main__':
-     app.run(debug=True,host="0.0.0.0")
+if pred_type == 'BatchPrediction':
+    data_type = st.selectbox("Select batch prediction type",("select type","Githuburl","upload dataset"))
+    if data_type == "Githuburl":
+        github_url = st.text_input("Please enter the github url",value="None")
+        if st.button("Submit"):
+            if github_url is not "None":
+                df = pd.read_parquet(github_url)
+                df = start_batch_prediction(df=df)
+                st.write(df)
+    elif data_type == "upload dataset":
+        uploadedfile = st.file_uploader("Upload your data")
+        if st.button("Submit"):
+            if uploadedfile is not None:
+                df = pd.read_csv(uploadedfile)
+                df = start_batch_prediction(df=df)
+                st.write(df)

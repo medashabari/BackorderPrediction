@@ -9,14 +9,12 @@ import pandas as pd
 import numpy as np
 PREDICTION_DIR = 'predictions'
 
-def start_batch_prediction(url = None ,input_file_path='sample_bo.parquet.gzip'):
+def start_batch_prediction(df=None ,input_file_path='sample_bo.parquet.gzip'):
     try:
-        logging.info("Creating Model resolver Object")
+        if 'sku' in df.columns:
+            df.drop('sku',axis=1,inplace=True)
         model_resolver = ModelResolver(model_registry='saved_models')
-        logging.info(f"Input file name {input_file_path}")
-        df = pd.read_parquet(url)
         logging.info(f"Shape of the data set {df.shape}")
-
         logging.info("Replacing the null values with np.Nan in Dataset")
         df.replace(to_replace='na',value=np.nan,inplace=True)
         df.dropna(thresh=10,inplace=True)
@@ -50,7 +48,7 @@ def start_batch_prediction(url = None ,input_file_path='sample_bo.parquet.gzip')
         prediction_file_name = os.path.basename(input_file_path).replace(".parquet.gzip",f"{datetime.now().strftime('%m%d%Y__%H%M%S')}.csv")
         prediction_file_path  = os.path.join(PREDICTION_DIR,prediction_file_name)
         #df.to_csv(prediction_file_path,index=False,header=True)
-        return df,prediction_file_path 
+        return df
         
         
     except Exception as e:

@@ -18,4 +18,5 @@ imblearn
 statsmodels
 flask
 flask-cors
+streamlit
 -e .
