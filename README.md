@@ -10,7 +10,7 @@
   - False positive is not that much important to the company because even if it is predicted as product is going to be backordered but actually is not backorded.
 
 ## Project Architecture
-![Project Architecture](https://github.com/medashabari/BackorderPrediction/blob/main/Documents/PROJECT%20ARCHITECUTRE%20MAIN.png?raw=true)
+![Project Architecture](https://github.com/medashabari/BackorderPrediction/blob/main/Documents/PROJECT%20ARCHITECUTRE%20MAIN%20(2).png?raw=true)
 
 ## Project PipeLine Stages
   ![Project PipeLine Stages](https://github.com/medashabari/BackorderPrediction/blob/main/Documents/Ml%20Design%20flow.png?raw=true)
