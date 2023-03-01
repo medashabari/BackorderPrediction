@@ -9,6 +9,15 @@
   - False Negative reduction will help us to prevent the unexpected strain on production,logistics and transportation
   - False positive is not that much important to the company because even if it is predicted as product is going to be backordered but actually is not backorded.
 
-### PIPELINE STAGE
+## Project Architecture
+![Project Architecture](https://github.com/medashabari/BackorderPrediction/blob/main/Documents/PROJECT%20ARCHITECUTRE%20MAIN.png?raw=true)
+
+## Project PipeLine Stages
+  ![Project PipeLine Stages](https://github.com/medashabari/BackorderPrediction/blob/main/Documents/Ml%20Design%20flow.png?raw=true)
+
+
+## Deployed stremlit app link
+ - Click on link
+ [Backorder prediction](https://medashabari-backorderprediction-main-43n2rq.streamlit.app/)
 
 
