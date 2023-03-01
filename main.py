@@ -5,6 +5,11 @@ import warnings
 import os,sys
 import pandas as pd
 warnings.filterwarnings('ignore')
+@st.cache_data
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
+
 
 st.write("""
 # Backorder Prediction""")
@@ -73,10 +78,12 @@ if pred_type == 'BatchPrediction':
     if data_type == "Githuburl":
         github_url = st.text_input("Please enter the github url",value="None")
         if st.button("Submit"):
-            if github_url is not "None":
+            if github_url !=  "None":
                 df = pd.read_parquet(github_url)
                 df = start_batch_prediction(df=df)
                 st.write(df)
+                csv=convert_df(df)
+                btn =st.download_button("Dowload Prediction file",data=csv,file_name='predictions.csv')
     elif data_type == "upload dataset":
         uploadedfile = st.file_uploader("Upload your data")
         if st.button("Submit"):
@@ -84,3 +91,5 @@ if pred_type == 'BatchPrediction':
                 df = pd.read_csv(uploadedfile)
                 df = start_batch_prediction(df=df)
                 st.write(df)
+                csv=convert_df(df)
+                btn =st.download_button("Dowload Prediction file",data=csv,file_name='predictions.csv')
