@@ -9,14 +9,6 @@
   - False Negative reduction will help us to prevent the unexpected strain on production,logistics and transportation
   - False positive is not that much important to the company because even if it is predicted as product is going to be backordered but actually is not backorded.
 
-### Step 1 - Install the requirements
+### PIPELINE STAGE
 
-```bash
-pip install -r requirements.txt
-```
 
-### Step 2 - Run main.py file
-
-```bash
-python main.py
-```
